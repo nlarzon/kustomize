@@ -1,0 +1,15 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: service-catalog-controller-manager-cluster-info
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: servicecatalog.k8s.io:cluster-info-configmap
+subjects:
+- apiGroup: ""
+  kind: ServiceAccount
+  name: service-catalog-controller-manager
+  namespace: default

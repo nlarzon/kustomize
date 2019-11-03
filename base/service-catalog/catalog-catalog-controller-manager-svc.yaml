@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: catalog-catalog-controller-manager
+  name: catalog-catalog-controller-manager
+spec:
+  ports:
+  - name: secure
+    port: 443
+    protocol: TCP
+    targetPort: 8444
+  selector:
+    app: catalog-catalog-controller-manager
+  type: ClusterIP

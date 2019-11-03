@@ -1,0 +1,125 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: catalog-catalog-apiserver
+  name: catalog-catalog-apiserver
+spec:
+  minReadySeconds: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-catalog-apiserver
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: catalog-catalog-apiserver
+        releaseRevision: "0"
+    spec:
+      containers:
+      - args:
+        - apiserver
+        - --enable-admission-plugins
+        - NamespaceLifecycle,DefaultServicePlan,ServiceBindingsLifecycle,ServicePlanChangeValidator,BrokerAuthSarCheck
+        - --secure-port
+        - "8443"
+        - --etcd-servers
+        - http://localhost:2379
+        - -v
+        - "10"
+        - --feature-gates
+        - OriginatingIdentity=true
+        - --feature-gates
+        - ServicePlanDefaults=false
+        image: quay.io/kubernetes-service-catalog/service-catalog:v0.2.1
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: 8443
+            scheme: HTTPS
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: apiserver
+        ports:
+        - containerPort: 8443
+        readinessProbe:
+          failureThreshold: 1
+          httpGet:
+            path: /healthz/ready
+            port: 8443
+            scheme: HTTPS
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: 100m
+            memory: 50Mi
+          requests:
+            cpu: 100m
+            memory: 40Mi
+        volumeMounts:
+        - mountPath: /var/run/kubernetes-service-catalog
+          name: apiserver-cert
+          readOnly: true
+      - command:
+        - /usr/local/bin/etcd
+        - --listen-client-urls
+        - http://0.0.0.0:2379
+        - --advertise-client-urls
+        - http://localhost:2379
+        env:
+        - name: ETCD_DATA_DIR
+          value: /etcd-data-dir
+        image: quay.io/coreos/etcd:latest
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 2379
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        name: etcd
+        ports:
+        - containerPort: 2379
+        readinessProbe:
+          failureThreshold: 1
+          httpGet:
+            path: /health
+            port: 2379
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        resources:
+          limits:
+            cpu: 100m
+            memory: 40Mi
+          requests:
+            cpu: 100m
+            memory: 30Mi
+        volumeMounts:
+        - mountPath: /etcd-data-dir
+          name: etcd-data-dir
+      serviceAccountName: service-catalog-apiserver
+      volumes:
+      - name: apiserver-cert
+        secret:
+          items:
+          - key: tls.crt
+            path: apiserver.crt
+          - key: tls.key
+            path: apiserver.key
+          secretName: catalog-catalog-apiserver-cert
+      - name: etcd-data-dir

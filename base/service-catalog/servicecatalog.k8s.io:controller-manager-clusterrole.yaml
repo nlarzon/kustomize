@@ -1,0 +1,138 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: servicecatalog.k8s.io:controller-manager
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - create
+  - update
+  - delete
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - update
+  - patch
+  - watch
+  - delete
+  - initialize
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - servicecatalog.k8s.io
+  resources:
+  - clusterserviceclasses
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - update
+  - delete
+- apiGroups:
+  - servicecatalog.k8s.io
+  resources:
+  - clusterserviceplans
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - update
+  - delete
+- apiGroups:
+  - servicecatalog.k8s.io
+  resources:
+  - clusterservicebrokers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - servicecatalog.k8s.io
+  resources:
+  - serviceinstances
+  - servicebindings
+  verbs:
+  - get
+  - list
+  - watch
+  - update
+- apiGroups:
+  - servicecatalog.k8s.io
+  resources:
+  - clusterservicebrokers/status
+  - clusterserviceclasses/status
+  - clusterserviceplans/status
+  - serviceinstances/status
+  - serviceinstances/reference
+  - servicebindings/status
+  verbs:
+  - update
+- apiGroups:
+  - servicecatalog.k8s.io
+  resources:
+  - serviceclasses
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - update
+  - delete
+- apiGroups:
+  - servicecatalog.k8s.io
+  resources:
+  - serviceplans
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - update
+  - delete
+- apiGroups:
+  - servicecatalog.k8s.io
+  resources:
+  - servicebrokers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - servicecatalog.k8s.io
+  resources:
+  - servicebrokers/status
+  - serviceclasses/status
+  - serviceplans/status
+  verbs:
+  - update

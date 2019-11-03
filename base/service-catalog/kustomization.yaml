@@ -1,0 +1,40 @@
+---
+# Images modify the tags for images without
+# creating patches.
+images:
+- name: quay.io/coreos/etcd
+  newTag: latest
+- name: quay.io/kubernetes-service-catalog/service-catalog
+  newTag: v0.2.1
+
+# List of resource files that kustomize reads, modifies
+# and emits as a YAML string
+resources:
+- catalog-catalog-apiserver-deploy.yaml
+- catalog-catalog-apiserver-svc.yaml
+- catalog-catalog-controller-manager-deploy.yaml
+- catalog-catalog-controller-manager-svc.yaml
+- service-catalog-apiserver-sa.yaml
+- service-catalog-controller-manager-cluster-info-rb.yaml
+- service-catalog-controller-manager-leader-election-rb.yaml
+- service-catalog-controller-manager-sa.yaml
+- servicecatalog.k8s.io:apiserver-auth-delegator-crb.yaml
+- servicecatalog.k8s.io:apiserver-authentication-reader-rb.yaml
+- servicecatalog.k8s.io:apiserver-clusterrole.yaml
+- servicecatalog.k8s.io:apiserver-crb.yaml
+- servicecatalog.k8s.io:cluster-info-configmap-role.yaml
+- servicecatalog.k8s.io:controller-manager-clusterrole.yaml
+- servicecatalog.k8s.io:controller-manager-crb.yaml
+- servicecatalog.k8s.io:leader-locking-controller-manager-role.yaml
+- servicecatalog.k8s.io:service-catalog-readiness-clusterrole.yaml
+- servicecatalog.k8s.io:service-catalog-readiness-crb.yaml
+- v1beta1.servicecatalog.k8s.io-apiservice.yaml
+
+# Each entry in this list results in the creation of
+# one Secret resource (it's a generator of n secrets).
+secretGenerator:
+- files:
+  - catalog-catalog-apiserver-cert-tls.crt
+  - catalog-catalog-apiserver-cert-tls.key
+  name: catalog-catalog-apiserver-cert
+  type: Opaque
