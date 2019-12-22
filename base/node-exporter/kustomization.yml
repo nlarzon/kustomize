@@ -1,0 +1,12 @@
+---
+images:
+- name: prom/node-exporter
+  newTag: v0.18.1
+
+resources:
+  - clusterRoleBinding.yaml
+  - clusterRole.yaml
+  - daemonset.yaml
+  - serviceAccount.yaml
+  - serviceMonitor.yaml
+  - service.yaml
