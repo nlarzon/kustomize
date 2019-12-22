@@ -8,8 +8,8 @@ images:
   newTag: v0.34.0
 
 resources:
- - cluster-role.yaml
+ - clusterRole.yaml
  - deployment.yaml
- - role-binding.yaml
+ - clusterRoleBinding.yaml
  - service.yaml
- - serviceaccount.yaml
+ - serviceAccount.yaml
