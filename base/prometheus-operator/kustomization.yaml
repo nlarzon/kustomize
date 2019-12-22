@@ -1,0 +1,15 @@
+---
+
+commonLabels:
+  app.kubernetes.io/version: v0.34.0
+
+images:
+- name: quay.io/coreos/prometheus-operator
+  newTag: v0.34.0
+
+resources:
+ - cluster-role.yaml
+ - deployment.yaml
+ - role-binding.yaml
+ - service.yaml
+ - serviceaccount.yaml
