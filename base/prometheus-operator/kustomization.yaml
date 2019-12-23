@@ -1,5 +1,4 @@
 ---
-
 commonLabels:
   app.kubernetes.io/version: v0.34.0
 
@@ -13,3 +12,8 @@ resources:
  - clusterRoleBinding.yaml
  - service.yaml
  - serviceAccount.yaml
+ - alertmanagerCustomResourceDefinition.yaml
+ - podMonitorCustomResourceDefinition.yaml
+ - prometheusCustomResourceDefinition.yaml
+ - prometheusRuleCustomResourceDefinition.yaml
+ - serviceMonitorCustomResourceDefinition.yaml
