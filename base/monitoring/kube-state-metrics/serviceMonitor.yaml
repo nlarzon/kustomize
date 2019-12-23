@@ -5,7 +5,7 @@ metadata:
   labels:
     k8s-app: kube-state-metrics
   name: kube-state-metrics
-  namespace: kube-system
+  namespace: monitoring
 spec:
   endpoints:
   - honorLabels: true
