@@ -20,7 +20,7 @@ spec:
   replicas: 2
   resources:
     requests:
-      memory: 400Mi
+      memory: 512Mi
   ruleSelector:
     matchLabels:
       prometheus: k8s
